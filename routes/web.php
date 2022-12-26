@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 
@@ -15,21 +17,22 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-Route::get('/course/{id}', [CourseController::class, 'show'])->name('course.show');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/course/{slug}', [CourseController::class, 'show'])->name('course.show');
+Route::get('/topic/{slug}', [TopicController::class, 'index'])->name('topics');
+Route::get('/{archive_type}/{slug}', [HomeController::class, 'archive'])->name('archive');
+// todo controller pending
+Route::get('/courses', [CourseController::class, 'videos'])->name('courses');
+Route::get('/books', [CourseController::class, 'books'])->name('books');
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

@@ -20,14 +20,17 @@ class CourseFactory extends Factory
     {
         return [
             'name' => fake()->sentence(),
-            'book' => rand(0,1),
+            'type' => rand(0,1),
+            'slug' => fake()->slug,
+            'resources' => rand(1,50),
             'year' => rand(2010, 2021),
             'price' => rand(0,1)? rand(1,100): 0.00,
-            'image' => fake()->imageUrl('https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'),
-            'description' => fake()->paragraph(),
+            'image' => rand(1,10),
+            'description' => fake()->paragraph(8),
             'link'=> fake()->url(),
             'submited_by' => User::all()->random()->id,
             'duration' => rand(0,2),
+            'difficulty_level' => rand(0, 2),
             'platform_id' => Platform::all()->random()->id,
         ];
     }
